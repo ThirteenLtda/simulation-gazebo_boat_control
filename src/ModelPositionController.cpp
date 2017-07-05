@@ -64,7 +64,7 @@ ModelPositionController::~ModelPositionController()
 
 void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
 {
-    gzmsg << "ModelPositionController::Load() : Model Name : " << model->GetName();
+    gzmsg << "ModelPositionController::Load() : Model Name : " << model->GetName() << std::endl;
 		
     _world = model->GetWorld();
 
@@ -88,14 +88,14 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
 		}
 		
         std::string filepath = sdf->GetElement("info")->GetAttribute("filepath")->GetAsString();
-        gzmsg << "ModelPositionController::Load() SDF Parameter[info->filepath] : " << filepath;
+        gzmsg << "ModelPositionController::Load() SDF Parameter[info->filepath] : " << filepath << std::endl;
 		
         if (sdf->GetElement("info")->HasAttribute("timestep"))
 		{
             std::string strTimeStep = sdf->GetElement("info")->GetAttribute("timestep")->GetAsString();
 			std::stringstream ss(strTimeStep);
             ss >> _timeStep;
-            gzmsg << "ModelPositionController::Load() timeStep : " << _timeStep;
+            gzmsg << "ModelPositionController::Load() timeStep : " << _timeStep << std::endl;
 		}
 
         if (sdf->GetElement("info")->HasAttribute("interpolate"))
@@ -105,11 +105,11 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
 			if (strBool.compare("0")==0)
 			{
                 this->_interpolatePose = false;
-				gzmsg << "ModelPositionController::Load() interpolate : false";
+				gzmsg << "ModelPositionController::Load() interpolate : false" << std::endl;
 			}
 			else
 			{
-				gzmsg << "ModelPositionController::Load() interpolate : true";
+				gzmsg << "ModelPositionController::Load() interpolate : true" << std::endl;
 			}
 		}
 
@@ -118,12 +118,12 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
             std::string strStartTime = sdf->GetElement("info")->GetAttribute("start_time")->GetAsString();
             std::stringstream ss(strStartTime);
             ss >> _startTime;
-            gzmsg << "ModelPositionController::Load() startTime : " << _startTime;
+            gzmsg << "ModelPositionController::Load() startTime : " << _startTime << std::endl;
         }
         else
         {
             _startTime = 0.0;
-            gzmsg << "ModelPositionController::Load() no start_time defined. Setting start_time to zero.";
+            gzmsg << "ModelPositionController::Load() no start_time defined. Setting start_time to zero." << std::endl;
         }
 
         _poseList.clear();
@@ -133,7 +133,7 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
 
 		if (!myfile) //Always test the file open.
 		{
-			gzmsg << "ModelPositionController::Load() ERROR File not found";
+			gzmsg << "ModelPositionController::Load() ERROR File not found" << std::endl;
 			return;
 		}
 
@@ -194,7 +194,7 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
         return;
     }
     else
-        gzmsg << "ModelPositionController::Load()  Read " << count << " poses";
+        gzmsg << "ModelPositionController::Load()  Read " << count << " poses" << std::endl;
 
 
     //
@@ -220,19 +220,19 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
         if (sdf->GetElement("controller")->HasAttribute("type") )
 		{
             _controllerType = sdf->GetElement("controller")->GetAttribute("type")->GetAsString();
-            gzmsg << "ModelPositionController::Load() controller : %s", _controllerType;
+            gzmsg << "ModelPositionController::Load() controller : " << _controllerType << std::endl;
 
             if (_controllerType == "sliding")
             {
-                gzmsg << "ModelPositionController::Load() controller type == sliding";
+                gzmsg << "ModelPositionController::Load() controller type == sliding" << std::endl;
             }
             else if(_controllerType == "pid")
             {
-                gzmsg << "ModelPositionController::Load() controller type == pid";
+                gzmsg << "ModelPositionController::Load() controller type == pid" << std::endl;
             }
             else
             {
-                gzmsg << "ModelPositionController::Load() controller type (%s) not found. Controller can only be sliding or pid!!! Using pid..." << _controllerType;
+                gzmsg << "ModelPositionController::Load() controller type (%s) not found. Controller can only be sliding or pid!!! Using pid..." << _controllerType << std::endl;
                 _controllerType != "pid";
             }
 		}
@@ -244,17 +244,17 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
             if (strBool.compare("0")==0)
             {
                 this->_usePrecalculatedForces = false;
-                gzmsg << "ModelPositionController::Load() usePrecalculatedForces : false";
+                gzmsg << "ModelPositionController::Load() usePrecalculatedForces : false" << std::endl;
             }
             else
             {
                 this->_usePrecalculatedForces = true;
-                gzmsg << "ModelPositionController::Load() usePrecalculatedForces : true";
+                gzmsg << "ModelPositionController::Load() usePrecalculatedForces : true" << std::endl;
             }
         }
         else
         {
-            gzmsg << "ModelPositionController::Load() usePrecalculatedForces not found. Using true";
+            gzmsg << "ModelPositionController::Load() usePrecalculatedForces not found. Using true" << std::endl;
             this->_usePrecalculatedForces = true;
         }
 
@@ -265,7 +265,7 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
             std::string strPK = sdf->GetElement("controller")->GetAttribute("pk")->GetAsString();
 			std::stringstream ss(strPK);
 			ss >> pk;
-			gzmsg << "ModelPositionController::Load() Controller SlidingMode position k : " << pk;
+			gzmsg << "ModelPositionController::Load() Controller SlidingMode position k : " << pk << std::endl;
 		}
 
         if (sdf->GetElement("controller")->HasAttribute("pa"))
@@ -273,7 +273,7 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
             std::string strPA = sdf->GetElement("controller")->GetAttribute("pa")->GetAsString();
 			std::stringstream ss(strPA);
 			ss >> pa;
-			gzmsg << "ModelPositionController::Load() Controller SlidingMode position a : " << pa;
+			gzmsg << "ModelPositionController::Load() Controller SlidingMode position a : " << pa << std::endl;
 		}
 
         if (sdf->GetElement("controller")->HasAttribute("rk"))
@@ -281,7 +281,7 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
             std::string strPK = sdf->GetElement("controller")->GetAttribute("rk")->GetAsString();
 			std::stringstream ss(strPK);
 			ss >> rk;
-			gzmsg << "ModelPositionController::Load() Controller SlidingMode rotation k : " << rk;
+			gzmsg << "ModelPositionController::Load() Controller SlidingMode rotation k : " << rk << std::endl;
 		}
 
         if (sdf->GetElement("controller")->HasAttribute("ra"))
@@ -289,7 +289,7 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
             std::string strPA = sdf->GetElement("controller")->GetAttribute("ra")->GetAsString();
 			std::stringstream ss(strPA);
 			ss >> ra;
-			gzmsg << "ModelPositionController::Load() Controller SlidingMode rotation a : " << ra;
+			gzmsg << "ModelPositionController::Load() Controller SlidingMode rotation a : " << ra << std::endl;
 		}
 
         //PID PARAMETERS
@@ -298,7 +298,7 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
             std::string strPP = sdf->GetElement("controller")->GetAttribute("pP")->GetAsString();
             std::stringstream ss(strPP);
             ss >> pP;
-            gzmsg << "ModelPositionController::Load() Controller PID position P : " << pP;
+            gzmsg << "ModelPositionController::Load() Controller PID position P : " << pP << std::endl;
         }
 
         if (sdf->GetElement("controller")->HasAttribute("pI"))
@@ -306,7 +306,7 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
             std::string strPI = sdf->GetElement("controller")->GetAttribute("pI")->GetAsString();
             std::stringstream ss(strPI);
             ss >> pI;
-            gzmsg << "ModelPositionController::Load() Controller PID position I : " << pI;
+            gzmsg << "ModelPositionController::Load() Controller PID position I : " << pI << std::endl;
         }
 
         if (sdf->GetElement("controller")->HasAttribute("pD"))
@@ -314,7 +314,7 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
             std::string strPD = sdf->GetElement("controller")->GetAttribute("pD")->GetAsString();
             std::stringstream ss(strPD);
             ss >> pD;
-            gzmsg << "ModelPositionController::Load() Controller PID position D : " << pD;
+            gzmsg << "ModelPositionController::Load() Controller PID position D : " << pD << std::endl;
         }
 
         if (sdf->GetElement("controller")->HasAttribute("rP"))
@@ -322,7 +322,7 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
             std::string strRP = sdf->GetElement("controller")->GetAttribute("rP")->GetAsString();
             std::stringstream ss(strRP);
             ss >> rP;
-            gzmsg << "ModelPositionController::Load() Controller PID rotation P : " << rP;
+            gzmsg << "ModelPositionController::Load() Controller PID rotation P : " << rP << std::endl;
         }
 
         if (sdf->GetElement("controller")->HasAttribute("rI"))
@@ -330,7 +330,7 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
             std::string strRI = sdf->GetElement("controller")->GetAttribute("rI")->GetAsString();
             std::stringstream ss(strRI);
             ss >> rI;
-            gzmsg << "ModelPositionController::Load() Controller PID rotation I : " << rI;
+            gzmsg << "ModelPositionController::Load() Controller PID rotation I : " << rI << std::endl;
         }
 
         if (sdf->GetElement("controller")->HasAttribute("rD"))
@@ -338,7 +338,7 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
             std::string strRD = sdf->GetElement("controller")->GetAttribute("rD")->GetAsString();
             std::stringstream ss(strRD);
             ss >> rD;
-            gzmsg << "ModelPositionController::Load() Controller PID rotation D : " << rD;
+            gzmsg << "ModelPositionController::Load() Controller PID rotation D : " << rD << std::endl;
         }
 	}
 
@@ -375,7 +375,7 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
 
     if (_startTime < 0.0 || _startTime > (double) (_poseList.size() - 1) * _timeStep )
     {
-        gzmsg << "ModelPositionController::Load()  Invalid start_time. Using start_time = 0.";
+        gzmsg << "ModelPositionController::Load()  Invalid start_time. Using start_time = 0." << std::endl;
     }
 
     _currentPoseIndex = (int) (_startTime / _timeStep);
@@ -384,12 +384,12 @@ void ModelPositionController::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
     //Trazer embarcação para posição inicial
     SetModelPosition(_currentPoseIndex);
 
-    gzmsg << "ModelPositionController::Load() : Model Name : " << model->GetName();
+    gzmsg << "ModelPositionController::Load() : Model Name : " << model->GetName() << std::endl;
 }
 
 void ModelPositionController::Reset()
 {
-	gzmsg << "ModelPositionController::Reset()";
+	gzmsg << "ModelPositionController::Reset()" << std::endl;
 
     _currentPoseIndex = (int) (_startTime / _timeStep);
     _timeAcum = _startTime - _currentPoseIndex * _timeStep;
@@ -424,7 +424,7 @@ void ModelPositionController::CheckSimulationReachedEnd()
 {
     if (_currentPoseIndex >= _poseList.size()) // Chegou ao fim da simulação.
     {
-        gzmsg << "ModelPositionController::CheckSimulationReachedEnd()";
+        gzmsg << "ModelPositionController::CheckSimulationReachedEnd()" << std::endl;
         _world->Reset(); //RESETA MUNDO!!!!!!!!!!!!!!!
     }
 }
