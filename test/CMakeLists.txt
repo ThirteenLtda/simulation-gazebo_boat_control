@@ -1,3 +1,3 @@
 rock_testsuite(test_suite suite.cpp
    test_Dummy.cpp
-   DEPS gazebo_boat_controller)
+   DEPS gazebo_boat_control)
