@@ -1,7 +1,6 @@
 rock_library(gazebo_boat_controller
-    SOURCES Dummy.cpp
-    HEADERS Dummy.hpp)
+    SOURCES ModelPositionController.cpp
+    HEADERS ModelPositionController.hpp
+    DEPS_PKGCONFIG gazebo)
 
-rock_executable(gazebo_boat_controller_bin Main.cpp
-    DEPS gazebo_boat_controller)
 
